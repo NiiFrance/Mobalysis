@@ -28,3 +28,17 @@ echo "removing existing files from user directory..."
 sudo rm -rf $user_dir/*
 sudo git clone https://github.com/NiiFrance/Mobalysis.git
 
+echo "Installing python3 virtual environment........................."
+sudo apt install python3-virtualenv
+
+echo "Creating an empty database..."
+
+set -e
+
+DB_NAME="mobalytics"
+DB_USER="mob_db_user"
+sudo su postgres <<EOF
+createdb  $DB_NAME;
+psql -c "grant all privileges on database $DB_NAME to $DB_USER;"
+echo "Postgres User '$DB_USER' and database '$DB_NAME' created."
+EOF
